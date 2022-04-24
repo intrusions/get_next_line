@@ -44,7 +44,6 @@ char	*ft_get_stash(char *stash)
 	char	*tmp;
 
 	i = 0;
-	j = 0;
 	k = 0;
 	if (!stash)
 		return (NULL);
@@ -55,16 +54,12 @@ char	*ft_get_stash(char *stash)
 		free(stash);
 		return (NULL);
 	}
-	tmp = malloc((ft_strlen(stash) - i) * sizeof(char)); // probleme ici
+	tmp = malloc((ft_strlen(stash) - i) * sizeof(char));
 	if (!tmp)
 		return (NULL);
 	j = i + 1;
 	while (stash[j])
-	{
-		tmp[k] = stash[j];
-		k++;
-		j++;
-	}
+		tmp[k++] = stash[j++];
 	tmp[k] = '\0';
 	free(stash);
 	return (tmp);
