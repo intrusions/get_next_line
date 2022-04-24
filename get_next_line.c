@@ -24,7 +24,9 @@ char	*ft_get_line(char *stash)
 		return (NULL);
 	while (stash[i] && stash[i] != '\n')
 		i++;
-	tmp = malloc((i + 1) * sizeof(char));
+	tmp = malloc((i + 2) * sizeof(char));
+	if (!tmp)
+		return (NULL);
 	while (j <= i)
 	{
 		tmp[j] = stash[j];
@@ -44,9 +46,18 @@ char	*ft_get_stash(char *stash)
 	i = 0;
 	j = 0;
 	k = 0;
+	if (!stash)
+		return (NULL);
 	while (stash[i] && stash[i] != '\n')
 		i++;
-	tmp = malloc((ft_strlen(stash) - i) * sizeof(char));
+	if (!stash[i])
+	{
+		free(stash);
+		return (NULL);
+	}
+	tmp = malloc((ft_strlen(stash) - i) * sizeof(char)); // probleme ici
+	if (!tmp)
+		return (NULL);
 	j = i + 1;
 	while (stash[j])
 	{
@@ -55,6 +66,7 @@ char	*ft_get_stash(char *stash)
 		j++;
 	}
 	tmp[k] = '\0';
+	free(stash);
 	return (tmp);
 }
 
@@ -66,6 +78,8 @@ char	*get_next_line(int fd)
 	char			*line_to_return;
 
 	readed = 1;
+	if (BUFFER_SIZE <= 0 || fd < 0)
+		return (NULL);
 	while (readed && !ft_have_newline(stash))
 	{
 		readed = read(fd, buffer, BUFFER_SIZE);
