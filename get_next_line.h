@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xel <xel@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: jucheval <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/24 12:44:39 by xel               #+#    #+#             */
-/*   Updated: 2022/04/24 12:44:39 by xel              ###   ########.fr       */
+/*   Created: 2022/05/05 14:19:43 by jucheval          #+#    #+#             */
+/*   Updated: 2022/05/05 14:19:43 by jucheval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
-//# define BUFFER_SIZE 1
+//# define BUFFER_SIZE 100
 # include <stdio.h>
 # include <sys/types.h>
 # include <sys/stat.h>
@@ -27,5 +27,6 @@ char	*ft_strjoin(char *s1, char *s2);
 char	*ft_get_line(char *stash);
 char	*ft_get_stash(char *stash);
 char	*get_next_line(int fd);
+char	*ft_free(char *str);
 
 #endif

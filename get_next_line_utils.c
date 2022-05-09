@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xel <xel@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: jucheval <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/24 15:06:36 by xel               #+#    #+#             */
-/*   Updated: 2022/04/24 15:06:36 by xel              ###   ########.fr       */
+/*   Created: 2022/05/05 14:19:29 by jucheval          #+#    #+#             */
+/*   Updated: 2022/05/05 14:19:29 by jucheval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,13 @@ size_t	ft_strlen(const char *s)
 	size_t	i;
 
 	i = 0;
-	while (s[i])
-		i++;
-	return (i);
+	if (s)
+	{
+		while (s[i])
+			i++;
+		return (i);
+	}
+	return (0);
 }
 
 int	ft_have_newline(char *str)
@@ -50,7 +54,9 @@ char	*ft_strjoin(char *s1, char *s2)
 	if (!s1)
 	{
 		s1 = (char *)(malloc(sizeof(char) * 1));
-		s1[0] = '\0';
+		if (!s1)
+			return (NULL);
+		s1[0] = 0;
 	}
 	if (!s2 || !s1)
 		return (NULL);
@@ -61,7 +67,6 @@ char	*ft_strjoin(char *s1, char *s2)
 		dest[i] = s1[i];
 	while (s2[j])
 		dest[i++] = s2[j++];
-	dest[i] = '\0';
-	free(s1);
-	return (dest);
+	dest[i] = 0;
+	return (free(s1), dest);
 }

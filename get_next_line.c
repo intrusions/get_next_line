@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xel <xel@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: jucheval <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/24 12:42:16 by xel               #+#    #+#             */
-/*   Updated: 2022/04/24 12:42:16 by xel              ###   ########.fr       */
+/*   Created: 2022/05/05 14:19:37 by jucheval          #+#    #+#             */
+/*   Updated: 2022/05/05 14:19:37 by jucheval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	*ft_get_line(char *stash)
 		tmp[j] = stash[j];
 		j++;
 	}
-	tmp[j] = '\0';
+	tmp[j] = 0;
 	return (tmp);
 }
 
@@ -45,43 +45,52 @@ char	*ft_get_stash(char *stash)
 
 	i = 0;
 	k = 0;
-	if (!stash)
-		return (NULL);
 	while (stash[i] && stash[i] != '\n')
 		i++;
 	if (!stash[i])
-	{
-		free(stash);
-		return (NULL);
-	}
+		return (ft_free(stash));
 	tmp = malloc((ft_strlen(stash) - i) * sizeof(char));
 	if (!tmp)
-		return (NULL);
+		return (ft_free(stash));
 	j = i + 1;
 	while (stash[j])
 		tmp[k++] = stash[j++];
-	tmp[k] = '\0';
+	tmp[k] = 0;
 	free(stash);
 	return (tmp);
+}
+
+char	*ft_free(char *str)
+{
+	free(str);
+	return (NULL);
 }
 
 char	*get_next_line(int fd)
 {
 	static char		*stash = NULL;
-	char			buffer[BUFFER_SIZE + 1];
+	char			*buffer;
 	int				readed;
 	char			*line_to_return;
 
 	readed = 1;
-	if (BUFFER_SIZE <= 0 || fd < 0)
+	if (BUFFER_SIZE <= 0 || (fd < 0 && fd > 1024))
+		return (NULL);
+	buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	if (!buffer)
 		return (NULL);
 	while (readed && !ft_have_newline(stash))
 	{
 		readed = read(fd, buffer, BUFFER_SIZE);
-		buffer[readed] = '\0';
+		if (readed == -1)
+			return (ft_free(buffer));
+		buffer[readed] = 0;
 		stash = ft_strjoin(stash, buffer);
+		if (!stash)
+			return (ft_free(buffer));
 	}
 	line_to_return = ft_get_line(stash);
 	stash = ft_get_stash(stash);
+	free(buffer);
 	return (line_to_return);
 }
