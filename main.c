@@ -12,13 +12,13 @@
 
 #include <stdio.h>
 #include "get_next_line.h"
-	
+
 int	main(int argc, char **argv)
 {
 	int		i;
 	char	*str;
 	int		fd;
-	
+
 	i = 0;
 	if (argc != 2)
 		return (1);

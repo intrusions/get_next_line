@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*ft_get_line(char *stash)
 {
@@ -61,7 +61,7 @@ char	*ft_get_stash(char *stash)
 
 char	*get_next_line(int fd)
 {
-	static char		*stash;
+	static char		*stash[1024];
 	char			*buffer;
 	int				readed;
 	char			*line_to_return;
@@ -72,17 +72,17 @@ char	*get_next_line(int fd)
 	buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buffer)
 		return (NULL);
-	while (readed && !ft_have_newline(stash))
+	while (readed && !ft_have_newline(stash[fd]))
 	{
 		readed = read(fd, buffer, BUFFER_SIZE);
 		if (readed == -1)
 			return (ft_free(buffer));
 		buffer[readed] = 0;
-		stash = ft_strjoin(stash, buffer);
-		if (!stash)
+		stash[fd] = ft_strjoin(stash[fd], buffer);
+		if (!stash[fd])
 			return (ft_free(buffer));
 	}
-	line_to_return = ft_get_line(stash);
-	stash = ft_get_stash(stash);
+	line_to_return = ft_get_line(stash[fd]);
+	stash[fd] = ft_get_stash(stash[fd]);
 	return (free(buffer), line_to_return);
 }
